@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using System;
+using CodingMath.Utils;
 
 namespace CodingMath.Episodes
 {
-    public class Episode2 : Game
+    public class Episode3 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -14,12 +15,11 @@ namespace CodingMath.Episodes
         private int _width;
         private int _height;
 
-        private Vector2[] lineStartPoints;
-        private Vector2[] lineEndPoints;
+        private Color _color;
+        private Texture2D _circleTexture;
 
-        const int NUMBER_OF_LINES = 100;
 
-        public Episode2()
+        public Episode3()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -32,25 +32,22 @@ namespace CodingMath.Episodes
             _width = GraphicsDevice.Viewport.Width;
             _height = GraphicsDevice.Viewport.Height;
 
-            lineStartPoints = new Vector2[NUMBER_OF_LINES];
-            lineEndPoints = new Vector2[NUMBER_OF_LINES];
-            System.Random rnd = new System.Random();
-            for (int i = 0; i < 100; i++)
-            {
-                lineStartPoints[i] = new Vector2((int)(rnd.NextDouble() * _width), (int)(rnd.NextDouble() * _height));
-                lineEndPoints[i] = new Vector2((int)(rnd.NextDouble() * _width), (int)(rnd.NextDouble() * _height));
-            }
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            _circleTexture = Content.Load<Texture2D>(GameConstants.CIRCLE_TEXTURE_PATH);
+            _color = Color.Black;
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            _color.A = (byte)CommonFunctions.Remap(MathF.Sin((float)gameTime.TotalGameTime.TotalSeconds * 4), -1, 1, 0, 255);
             base.Update(gameTime);
         }
 
@@ -58,19 +55,9 @@ namespace CodingMath.Episodes
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin(transformMatrix: Matrix.CreateTranslation(new Vector3(0, GraphicsDevice.Viewport.Height / 2, 0)));
-            for (float angle = 0; angle < MathF.PI * 12.8f; angle += 0.01f)
-            {
-                float x = angle * 20;
-                float y = MathF.Sin(angle) * 20;
-
-                _spriteBatch.DrawPoint(x, y, Color.Black, 2);
-
-                y = MathF.Cos(angle) * 20;
-                _spriteBatch.DrawPoint(x, y, Color.Red, 2);
-            }
+            _spriteBatch.Begin(blendState: BlendState.AlphaBlend, transformMatrix: Matrix.CreateTranslation(new Vector3(_width / 2, _height / 2, 0)));
+            _spriteBatch.Draw(_circleTexture, Vector2.Zero, null, _color, 0, GameConstants.circleOrigin, Vector2.One, SpriteEffects.None, 0);
             _spriteBatch.End();
-
 
             base.Draw(gameTime);
         }
