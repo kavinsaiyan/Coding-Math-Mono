@@ -8,16 +8,16 @@ using System.Collections.Generic;
 
 namespace CodingMath.Episodes
 {
-    public class Episode8 : Game
+    public class Episode9 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private const int NO_OF_PARTICLES = 20;
+        private const int NO_OF_PARTICLES = 80;
         private Particle[] _particles;
         private int _width;
         private int _height;
 
-        public Episode8()
+        public Episode9()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -34,10 +34,10 @@ namespace CodingMath.Episodes
             for (int i = 0; i < NO_OF_PARTICLES; i++)
             {
                 _particles[i] = new Particle(Content);
-                _particles[i].friction = 0.99f;
-                _particles[i].Scale = new Vector2(0.4f, .4f);
-                _particles[i].velocity.SetLength(CommonFunctions.RandomRange(1, 4) * 8);
+                _particles[i].Scale = new Vector2(0.1f, 0.1f);
+                _particles[i].velocity.SetLength(CommonFunctions.RandomRange(1, 4) * 4);
                 _particles[i].velocity.SetAngle(CommonFunctions.RandomRange(0, MathF.PI * 2));
+                _particles[i].gravity = new Vector2(0, 0.1f);
             }
         }
 
@@ -62,7 +62,7 @@ namespace CodingMath.Episodes
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin(transformMatrix: Matrix.CreateTranslation(_width / 2, _height / 2, 0));
+            _spriteBatch.Begin(transformMatrix: Matrix.CreateTranslation(_width / 2, _height / 4, 0));
             for (int i = 0; i < NO_OF_PARTICLES; i++)
             {
                 _particles[i].Draw(_spriteBatch);
