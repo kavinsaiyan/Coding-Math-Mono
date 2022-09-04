@@ -37,9 +37,9 @@ namespace CodingMath.Episodes
 
             _translationMatrix = Matrix.CreateTranslation(_width / 2, _height / 2, 0);
             _lines = new Line[3];
-            _lines[0] = new Line() { start = new Vector2(0, 0), end = new Vector2(36, 0) }; //horizontal stright line of the arrow
-            _lines[1] = new Line() { start = _lines[0].end, end = new Vector2(28, 8) };
-            _lines[2] = new Line() { start = _lines[0].end, end = new Vector2(28, -8) };
+            _lines[0] = new Line(new Vector2(0, 0), new Vector2(36, 0)); //horizontal stright line of the arrow
+            _lines[1] = new Line(_lines[0].end, new Vector2(28, 8));
+            _lines[2] = new Line(_lines[0].end, new Vector2(28, -8));
 
             _position = new Vector2();
         }
@@ -78,12 +78,6 @@ namespace CodingMath.Episodes
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        struct Line
-        {
-            public Vector2 start;
-            public Vector2 end;
         }
     }
 }
