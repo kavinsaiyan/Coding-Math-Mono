@@ -8,7 +8,7 @@ namespace CodingMath
         [STAThread]
         static void Main()
         {
-            using (var game = new Episode11())
+            using (var game = new Episode12Removal())
                 game.Run();
         }
     }

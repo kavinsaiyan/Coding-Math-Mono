@@ -23,6 +23,7 @@ namespace CodingMath
         private Color color;
         public int TextureWidth => texture2D.Width;
         public int TextureHeight => texture2D.Height;
+        public float Radius => TextureWidth / 2 * Scale.X;
         private Vector2 Origin => new Vector2(size.X * Scale.X, size.Y * Scale.Y) / 2;
         public Particle(ContentManager contentManager, string textureFileName = GameConstants.CIRCLE_TEXTURE_PATH)
         {
@@ -54,7 +55,7 @@ namespace CodingMath
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture2D, position, null, color, 0, Vector2.Zero, Scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture2D, position, null, color, 0, Origin, Scale, SpriteEffects.None, 0);
         }
 
         public void GravitateTo(Particle other)
