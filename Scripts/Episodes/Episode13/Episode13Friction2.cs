@@ -8,21 +8,16 @@ using System.Collections.Generic;
 
 namespace CodingMath.Episodes
 {
-    public class Episode10 : Game
+    public class Episode13Friction2 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Particle _particle;
         private int _width;
         private int _height;
-        private Ship _ship;
-        /// <summary>
-        /// used for actually calculating movement and rotation of the ship
-        /// </summary>
-        private Particle _particle;
-        private Vector2 _thrust;
-        private float _angle = 0;
+        private float _friction;
 
-        public Episode10()
+        public Episode13Friction2()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -34,10 +29,12 @@ namespace CodingMath.Episodes
             base.Initialize();
             _width = GraphicsDevice.Viewport.Width;
             _height = GraphicsDevice.Viewport.Height;
+
+            _friction = 0.95f;
+
             _particle = new Particle(Content);
-            _ship = new Ship();
-            _thrust = new Vector2();
-            _angle = 0;
+            _particle.Scale = new Vector2(1f, 1f);
+            _particle.velocity = new Vector2(10, 0);
         }
 
         protected override void LoadContent()
@@ -50,34 +47,9 @@ namespace CodingMath.Episodes
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            KeyboardState keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.W))
-                _thrust.SetLength(0.5f);
-            else
-                _thrust.SetLength(0);
+            _particle.velocity *= _friction;
 
-            if (keyboardState.IsKeyDown(Keys.A))
-                _angle += 0.1f;
-            else if (keyboardState.IsKeyDown(Keys.D))
-                _angle -= 0.1f;
-
-            _ship.SetThrust(_thrust);
-            _thrust.SetAngle(_angle);
-            _ship.SetRotation(_angle);
-
-            _particle.acceleration = _thrust;
-            _particle.Update(gameTime);
-
-            if (_particle.position.X < -_width / 2)
-                _particle.position.X = _width / 2;
-            if (_particle.position.X > _width / 2)
-                _particle.position.X = -_width / 2;
-            if (_particle.position.Y < -_height / 2)
-                _particle.position.Y = _height / 2;
-            if (_particle.position.Y > _height / 2)
-                _particle.position.Y = -_height / 2;
-
-            _ship.SetPosition(new Vector3(_particle.position, 0));
+            _particle.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             base.Update(gameTime);
         }
@@ -87,9 +59,7 @@ namespace CodingMath.Episodes
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin(transformMatrix: Matrix.CreateTranslation(_width / 2, _height / 2, 0));
-
-            _ship.Draw(_spriteBatch);
-
+            _particle.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);

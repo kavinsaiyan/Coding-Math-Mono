@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace CodingMath.Episodes
 {
-    public class Episode10 : Game
+    public class Episode13Ship : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -22,7 +22,7 @@ namespace CodingMath.Episodes
         private Vector2 _thrust;
         private float _angle = 0;
 
-        public Episode10()
+        public Episode13Ship()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -35,6 +35,7 @@ namespace CodingMath.Episodes
             _width = GraphicsDevice.Viewport.Width;
             _height = GraphicsDevice.Viewport.Height;
             _particle = new Particle(Content);
+            _particle.friction = 0.95f;
             _ship = new Ship();
             _thrust = new Vector2();
             _angle = 0;
