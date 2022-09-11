@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace CodingMath.Input
+namespace CodingMath.InputSystem
 {
     public static class Input
     {

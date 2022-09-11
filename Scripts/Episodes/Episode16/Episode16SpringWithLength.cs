@@ -8,16 +8,14 @@ using System.Collections.Generic;
 
 namespace CodingMath.Episodes
 {
-    public class Episode16 : Game
+    public class Episode16SpringWithLength : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Particle _particle;
-
-        public const float k = 0.1f;
         private Vector2 _mousePos;
 
-        public Episode16()
+        public Episode16SpringWithLength()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

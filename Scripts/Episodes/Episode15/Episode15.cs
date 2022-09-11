@@ -13,8 +13,6 @@ namespace CodingMath.Episodes
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Particle _particle;
-
-        public const float k = 0.1f;
         private Vector2 _mousePos;
 
         public Episode15()

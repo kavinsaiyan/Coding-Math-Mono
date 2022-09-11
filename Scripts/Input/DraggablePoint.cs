@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
-namespace CodingMath.Input
+namespace CodingMath.InputSystem
 {
     public class DraggablePoint
     {
