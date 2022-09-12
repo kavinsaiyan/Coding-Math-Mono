@@ -49,7 +49,7 @@ namespace CodingMath.Episodes
 
             _particle.velocity *= _friction;
 
-            _particle.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            _particle.Update();
 
             base.Update(gameTime);
         }

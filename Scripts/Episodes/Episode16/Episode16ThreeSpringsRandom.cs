@@ -79,12 +79,12 @@ namespace CodingMath.Episodes
                 particle1.velocity = particle2.velocity = particle3.velocity = Vector2.Zero;
             }
 
-            UpdateAllParticles((float)gameTime.ElapsedGameTime.TotalSeconds);
+            UpdateAllParticles();
 
             base.Update(gameTime);
         }
 
-        public void UpdateAllParticles(float deltaTime)
+        public void UpdateAllParticles()
         {
             particle1.SpringTo(particle2, 100);
             particle1.SpringTo(particle3, 100);
@@ -93,9 +93,9 @@ namespace CodingMath.Episodes
 
             // particle3.SpringTo(particle2, 100);
 
-            particle1.Update(deltaTime);
-            particle2.Update(deltaTime);
-            particle3.Update(deltaTime);
+            particle1.Update();
+            particle2.Update();
+            particle3.Update();
 
             //clamp particle positions
             ClampParticlePosition(particle1);

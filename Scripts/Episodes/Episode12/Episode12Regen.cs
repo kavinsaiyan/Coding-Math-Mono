@@ -62,7 +62,7 @@ namespace CodingMath.Episodes
                     _particles[i].velocity.SetLength(CommonFunctions.RandomRange(4, 8));
                     _particles[i].velocity.SetAngle(CommonFunctions.RandomRange(0, MathF.PI * 2));
                 }
-                _particles[i].Update(gameTime);
+                _particles[i].Update();
             }
 
             base.Update(gameTime);

@@ -56,7 +56,7 @@ namespace CodingMath.Episodes
             //  d = distacne between the ends of the spring
             distane.SetLength(distane.GetLength());
             _particle.velocity += GameConstants.SPRING_CONSTANT * distane;
-            _particle.Update(gameTime);
+            _particle.Update();
 
             base.Update(gameTime);
         }

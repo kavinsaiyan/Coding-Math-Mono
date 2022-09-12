@@ -40,13 +40,7 @@ namespace CodingMath
             this.color = color;
         }
 
-        public void Update(float fixedTimeDelta)
-        {
-            position += velocity;
-            velocity += acceleration + gravity;
-            velocity *= friction;
-        }
-        public void Update(GameTime gameTime)
+        public void Update()
         {
             position += velocity;
             velocity += acceleration + gravity;

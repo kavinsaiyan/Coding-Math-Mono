@@ -52,7 +52,7 @@ namespace CodingMath.Episodes
             else
                 _particle.velocity.SetLength(0);
 
-            _particle.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            _particle.Update();
 
             base.Update(gameTime);
         }

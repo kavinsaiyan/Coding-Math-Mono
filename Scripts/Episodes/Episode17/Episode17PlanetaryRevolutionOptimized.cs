@@ -8,15 +8,16 @@ using System.Collections.Generic;
 
 namespace CodingMath.Episodes
 {
-    public class Episode12Removal : Game
+    public class Episode17PlanetaryRevolutionOptimized : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private int _width;
         private int _height;
-        private List<Particle> _particles;
+        private ParticleOptimized sun;
+        private ParticleOptimized earth;
 
-        public Episode12Removal()
+        public Episode17PlanetaryRevolutionOptimized()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -28,40 +29,34 @@ namespace CodingMath.Episodes
             base.Initialize();
             _width = GraphicsDevice.Viewport.Width;
             _height = GraphicsDevice.Viewport.Height;
-
-            _particles = new List<Particle>();
-            for (int i = 0; i < 100; i++)
-            {
-                _particles.Add(new Particle(Content));
-                _particles[i].position = new Vector2(_width / 2, _height / 2);
-                _particles[i].friction = 1f;
-                _particles[i].Scale = new Vector2(0.4f, 0.4f);
-                _particles[i].velocity.SetLength(CommonFunctions.RandomRange(16, 24));
-                _particles[i].velocity.SetAngle(CommonFunctions.RandomRange(0, MathF.PI * 2));
-            }
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            sun = new ParticleOptimized(Content);
+            sun.mass = 100000;
+            sun.positionX = GraphicsDevice.Viewport.Width / 2;
+            sun.positionY = GraphicsDevice.Viewport.Height / 2;
+            earth = new ParticleOptimized(Content);
+            earth.scale = new Vector2(0.4f);
+            InitEarth();
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            for (int i = 0; i < _particles.Count; i++)
-            {
-                _particles[i].Update();
 
-                if (_particles[i].position.X + _particles[i].Radius < 0 ||
-                _particles[i].position.X - _particles[i].Radius > _width ||
-                _particles[i].position.Y + _particles[i].Radius < 0 ||
-                _particles[i].position.Y - _particles[i].Radius > _height)
-                {
-                    _particles.Remove(_particles[i]);
-                }
+            sun.Update();
+
+            // if (Input.IsPressedOnce(Keys.Space, Keyboard.GetState()))
+            {
+                earth.GravitateTo(sun);
+                earth.Update();
             }
+
             base.Update(gameTime);
         }
 
@@ -70,13 +65,18 @@ namespace CodingMath.Episodes
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-            for (int i = 0; i < _particles.Count; i++)
-            {
-                _particles[i].Draw(_spriteBatch);
-            }
+            sun.Draw(_spriteBatch);
+            earth.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        void InitEarth()
+        {
+            earth.positionX = sun.positionX + 200;
+            earth.positionY = sun.positionY + 200;
+            earth.velocityY = 18;
         }
     }
 }

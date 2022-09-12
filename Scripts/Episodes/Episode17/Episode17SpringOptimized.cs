@@ -8,14 +8,15 @@ using System.Collections.Generic;
 
 namespace CodingMath.Episodes
 {
-    public class Episode16SpringWithLength : Game
+    public class Episode17SpringOptimized : Game
     {
+        private const int SPRING_LENGTH = 100;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Particle _particle;
+        private ParticleOptimized _particle;
         private Vector2 _mousePos;
 
-        public Episode16SpringWithLength()
+        public Episode17SpringOptimized()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -36,9 +37,9 @@ namespace CodingMath.Episodes
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _particle = new Particle(Content);
+            _particle = new ParticleOptimized(Content);
             _particle.friction = 0.95f;
-            _particle.gravity = new Vector2(0, 0.1f);
+            _particle.gravity = 0.1f;
         }
 
         protected override void Update(GameTime gameTime)
@@ -48,14 +49,22 @@ namespace CodingMath.Episodes
 
             // particle.acceleration = Input;
             _mousePos = Mouse.GetState().Position.ToVector2();
-            //center correction
-            Vector2 distane = _mousePos - _particle.position;
             //formula -> F = k * d;
             //  F = force
             //  k = spring constant
             //  d = distacne between the ends of the spring
-            distane.SetLength(distane.GetLength() - 100);
-            _particle.velocity += GameConstants.SPRING_CONSTANT * distane;
+            float dx = _mousePos.X - _particle.positionX,
+                    dy = _mousePos.Y - _particle.positionY,
+                    distance = System.MathF.Sqrt(dx * dx + dy * dy),
+                    springForce = (distance - SPRING_LENGTH) * GameConstants.SPRING_CONSTANT,
+                    ax = dx / (distance * springForce),
+                    ay = dy / (distance * springForce);
+
+            _particle.velocityX += ax;
+            _particle.velocityY += ay;
+            Debug.Log("" + ax);
+            Debug.LogWarning("" + ay);
+
             _particle.Update();
 
             base.Update(gameTime);
@@ -67,8 +76,8 @@ namespace CodingMath.Episodes
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.DrawLine(_mousePos.X, _mousePos.Y, _particle.position.X,
-                    _particle.position.Y, Color.Black, 2, 0);
+            _spriteBatch.DrawLine(_mousePos.X, _mousePos.Y, _particle.positionX,
+                    _particle.positionY, Color.Black, 2, 0);
             _particle.Draw(_spriteBatch);
             _spriteBatch.End();
 

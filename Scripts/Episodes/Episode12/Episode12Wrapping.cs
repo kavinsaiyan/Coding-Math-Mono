@@ -53,7 +53,7 @@ namespace CodingMath.Episodes
                 _particle.position.Y = -_particle.Radius;
             if (_particle.position.Y + _particle.Radius < 0)
                 _particle.position.Y = _height + _particle.Radius;
-            _particle.Update(gameTime);
+            _particle.Update();
 
             base.Update(gameTime);
         }

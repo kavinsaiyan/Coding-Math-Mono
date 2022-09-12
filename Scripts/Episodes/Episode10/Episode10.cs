@@ -66,7 +66,7 @@ namespace CodingMath.Episodes
             _ship.SetRotation(_angle);
 
             _particle.acceleration = _thrust;
-            _particle.Update(gameTime);
+            _particle.Update();
 
             if (_particle.position.X < -_width / 2)
                 _particle.position.X = _width / 2;

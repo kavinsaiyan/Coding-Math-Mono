@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace CodingMath.Episodes
 {
-    public class Episode11 : Game
+    public class Episode11PlanetaryRevolution : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -19,7 +19,7 @@ namespace CodingMath.Episodes
         private Particle sun;
         private Particle earth;
 
-        public Episode11()
+        public Episode11PlanetaryRevolution()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -50,12 +50,12 @@ namespace CodingMath.Episodes
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            sun.Update(gameTime);
+            sun.Update();
 
             // if (Input.IsPressedOnce(Keys.Space, Keyboard.GetState()))
             {
                 earth.GravitateTo(sun);
-                earth.Update(gameTime);
+                earth.Update();
             }
 
             base.Update(gameTime);

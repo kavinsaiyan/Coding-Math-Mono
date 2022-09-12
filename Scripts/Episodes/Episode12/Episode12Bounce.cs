@@ -68,7 +68,7 @@ namespace CodingMath.Episodes
                 _particle.position.Y = _particle.Radius;
                 _particle.velocity.Y *= BOUNCE;
             }
-            _particle.Update(gameTime);
+            _particle.Update();
 
             base.Update(gameTime);
         }
