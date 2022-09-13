@@ -53,17 +53,15 @@ namespace CodingMath.Episodes
             //  F = force
             //  k = spring constant
             //  d = distacne between the ends of the spring
-            float dx = _mousePos.X - _particle.positionX,
-                    dy = _mousePos.Y - _particle.positionY,
-                    distance = System.MathF.Sqrt(dx * dx + dy * dy),
-                    springForce = (distance - SPRING_LENGTH) * GameConstants.SPRING_CONSTANT,
-                    ax = dx / (distance * springForce),
-                    ay = dy / (distance * springForce);
+            float dx = _mousePos.X - _particle.positionX;
+            float dy = _mousePos.Y - _particle.positionY;
+            float distance = System.MathF.Sqrt(dx * dx + dy * dy);
+            float springForce = (distance - SPRING_LENGTH) * GameConstants.SPRING_CONSTANT;
+            float ax = dx / distance * springForce;
+            float ay = dy / distance * springForce;
 
             _particle.velocityX += ax;
             _particle.velocityY += ay;
-            Debug.Log("" + ax);
-            Debug.LogWarning("" + ay);
 
             _particle.Update();
 
