@@ -8,7 +8,7 @@ namespace CodingMath
         [STAThread]
         static void Main()
         {
-            using (var game = new Episode17PlanetaryRevolutionOptimized())
+            using (var game = new Episode18MultiGravity())
                 game.Run();
         }
     }
