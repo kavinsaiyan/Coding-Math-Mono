@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,6 +41,11 @@ namespace CodingMath
             spriteBatch.Draw(texture2D, new Vector2(positionX, positionY), null, color, 0, Origin, scale, SpriteEffects.None, 0);
         }
 
+        public void SetColor(Color color)
+        {
+            this.color = color;
+        }
+
         public void GravitateTo(ParticleOptimized other)
         {
             // f = (G * M )/ r * r;
@@ -57,6 +63,16 @@ namespace CodingMath
 
             velocityX += ax;
             velocityY += ay;
+        }
+
+        public void SpringTo(Vector2 position, float length)
+        {
+            float dx = position.X - positionX,
+                dy = position.Y - positionY,
+                distance = MathF.Sqrt(dx * dx + dy * dy),
+                springForce = (distance - length) * GameConstants.SPRING_CONSTANT;
+            velocityX += dx / distance * springForce;
+            velocityY += dy / distance * springForce;
         }
     }
 }
