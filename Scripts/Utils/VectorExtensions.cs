@@ -15,8 +15,9 @@ namespace CodingMath
 
         public static void SetAngle(ref this Vector2 vector2, float angle)
         {
-            vector2.X = MathF.Cos(angle) * vector2.GetLength();
-            vector2.Y = MathF.Sin(angle) * vector2.GetLength();
+            float length = vector2.GetLength();
+            vector2.X = MathF.Cos(angle) * length;
+            vector2.Y = MathF.Sin(angle) * length;
         }
 
         public static void SetLength(ref this Vector2 vector2, float length)

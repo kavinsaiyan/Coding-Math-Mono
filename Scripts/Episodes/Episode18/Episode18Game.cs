@@ -17,8 +17,14 @@ namespace CodingMath.Episodes
         private int _height;
         private Bar _oscillatingBar;
         private Tank _tank;
-        private Particle _particle;
-
+        private Particle _bullet;
+        private bool _isFiring = false;
+        private Circle _target;
+        private Texture2D _circleTexture;
+        private const float TARGET_RADIUS = 32;
+        private const float BULLET_RADIUS = 32;
+        private float _score = 0;
+        private SpriteFont _spriteFont;
         public Episode18Game()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -34,14 +40,19 @@ namespace CodingMath.Episodes
 
             _oscillatingBar.positon = new Vector2(20, _height - _height / 3);
             _tank = new Tank(new Vector2(100, _height), Content);
-            _particle = new Particle(Content);
+            _bullet = new Particle(Content);
 
-            _particle.position = _tank.Position;
-            // _particle.gravity = new Vector2(0, 1.2f);
-            _particle.friction = 0.98f;
-            _particle.velocity.SetAngle(MathF.PI + MathF.PI / 8);
-            _particle.velocity.SetLength(4);
-            _particle.SetColor(Color.Red);
+            _bullet.position = _tank.Position;
+            _bullet.friction = 0.98f;
+            _bullet.Scale = new Vector2(0.5f, 0.5f);
+
+            _bullet.SetColor(Color.Red);
+
+            _target = new Circle() { color = Color.Yellow, radius = 20 };
+            RandomSetTargetPosition();
+            _circleTexture = Content.Load<Texture2D>(GameConstants.CIRCLE_TEXTURE_PATH);
+
+            _spriteFont = Content.Load<SpriteFont>(GameConstants.FONT_PATH);
         }
 
         protected override void LoadContent()
@@ -55,11 +66,37 @@ namespace CodingMath.Episodes
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _oscillatingBar.Value = MathF.Sin((float)gameTime.TotalGameTime.TotalSeconds * MathF.PI * 2) * 0.5f + 0.5f;
-            _tank.UpdateRotation(CommonFunctions.Remap(MathF.Sin((float)gameTime.TotalGameTime.TotalSeconds), -1, 1,
-                                MathF.PI + MathF.PI / 8, MathF.PI + MathF.PI / 3f));
+            float osicallition = MathF.Sin((float)gameTime.TotalGameTime.TotalSeconds);
+            _oscillatingBar.Value = CommonFunctions.Remap(osicallition, -1, 1, 0, 1);
+            float rotation = CommonFunctions.Remap(osicallition, -1, 1,
+                                            MathF.PI, MathF.PI + MathF.PI / 3f);
+            _tank.UpdateRotation(rotation);
 
-            _particle.Update();
+            if (InputSystem.Input.IsPressedOnce(Keys.Space, Keyboard.GetState()) && !_isFiring)
+            {
+                _isFiring = true;
+                _bullet.gravity = new Vector2(0, 0.1f);
+                _bullet.velocity.SetLength(6 + _oscillatingBar.Value * (26 - 6)); //7,21
+                _bullet.velocity.SetAngle(CommonFunctions.Remap(osicallition, -1, 1,
+                                            MathF.PI + MathF.PI / 2,
+                                            MathF.PI + MathF.PI / 2 + MathF.PI / 3f));
+                // Debug.Log("" + _particle.velocity);
+            }
+
+            if (_isFiring)
+            {
+                if (_bullet.position.X < 0 || _bullet.position.X > _width ||
+                    _bullet.position.Y < 0 || _bullet.position.Y > _height)
+                    ResetBullet();
+                float distance = Vector2.Distance(_bullet.position, _target.position);
+                if (distance < BULLET_RADIUS + TARGET_RADIUS)
+                {
+                    _score++;
+                    ResetBullet();
+                    RandomSetTargetPosition();
+                }
+            }
+            _bullet.Update();
 
             base.Update(gameTime);
         }
@@ -69,15 +106,30 @@ namespace CodingMath.Episodes
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-
+            _spriteBatch.DrawString(_spriteFont, "Score : " + _score, new Vector2(40, 40), Color.Black);
             _oscillatingBar.Draw(_spriteBatch);
+            if (_isFiring)
+                _bullet.Draw(_spriteBatch);
             _tank.Draw(_spriteBatch);
-            _particle.Draw(_spriteBatch);
-
+            _spriteBatch.Draw(_circleTexture, _target.position, null, Color.Yellow, 0, GameConstants.circleOrigin, Vector2.One, SpriteEffects.None, 0);
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
+        private void ResetBullet()
+        {
+            _bullet.position = _tank.Position;
+            _bullet.velocity = Vector2.Zero;
+            _bullet.gravity = Vector2.Zero;
+            _isFiring = false;
+        }
+
+        private void RandomSetTargetPosition()
+        {
+            _target.position = new Vector2(CommonFunctions.RandomRange(_tank.Position.X + 40, _width), _height);
+        }
+
 
         class Bar
         {
