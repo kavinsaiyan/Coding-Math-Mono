@@ -52,6 +52,11 @@ namespace CodingMath
             spriteBatch.Draw(texture2D, position, null, color, 0, Origin, Scale, SpriteEffects.None, 0);
         }
 
+        public void DrawWithoutOffset(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture2D, position, null, color, 0, Vector2.Zero, Scale, SpriteEffects.None, 0);
+        }
+
         public void GravitateTo(Particle other)
         {
             // f = (G * M )/ r * r;

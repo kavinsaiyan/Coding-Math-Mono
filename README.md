@@ -14,6 +14,13 @@
 </div>
 
 <div>
+<h4><b>Note</b></h4>
+<p>
+There are some episodes that do not exactly replicate the video tutorial but the base concept is covered for all episodes nonetheless.
+</p>
+</div>
+
+<div>
 <h4><b>About</b></h4>
 <p>
 This repository is going to be the Monogame implementation of CodingMath series.
