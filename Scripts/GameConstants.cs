@@ -12,5 +12,6 @@ namespace CodingMath
         public const string SQUARE_TEXTURE_PATH = "100x100_Square";
         public const string RECTANGLE_TEXTURE_PATH = "Rectangle_64x128";
         public const string STEERING_WHEEL_TEXTURE_PATH = "wheel";
+        public const float FOCAL_LENGTH = 300f;
     }
 }

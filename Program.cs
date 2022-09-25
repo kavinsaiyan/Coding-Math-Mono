@@ -8,7 +8,7 @@ namespace CodingMath
         [STAThread]
         static void Main()
         {
-            using (var game = new Episode21BitmapCollision())
+            using (var game = new Episode22Perspective())
                 game.Run();
         }
     }
