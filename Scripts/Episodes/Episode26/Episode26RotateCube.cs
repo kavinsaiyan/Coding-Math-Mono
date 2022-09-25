@@ -8,16 +8,17 @@ using System.Collections.Generic;
 
 namespace CodingMath.Episodes
 {
-    public class Episode25TranslateCube : Game
+    public class Episode26RotateCube : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        public const float CENTERZ = 300;
         Matrix centerTranslation;
         const int VERTEX_COUNT_IN_CUBE = 8;
         ModelVertex[] points;
 
 
-        public Episode25TranslateCube()
+        public Episode26RotateCube()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -54,28 +55,62 @@ namespace CodingMath.Episodes
             {
                 KeyboardState keyboardState = Keyboard.GetState();
                 Vector3 translation = new Vector3();
+                Vector3 rotation = new Vector3();
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * 100;
                 //left
                 if (keyboardState.IsKeyDown(Keys.A))
-                    translation.X += deltaTime;
+                {
+                    if (keyboardState.IsKeyDown(Keys.LeftControl))
+                        rotation.X = 0.05f;
+                    else
+                        translation.X = deltaTime;
+                }
                 //right
                 if (keyboardState.IsKeyDown(Keys.D))
-                    translation.X -= deltaTime;
+                {
+                    if (keyboardState.IsKeyDown(Keys.LeftControl))
+                        rotation.X = -0.05f;
+                    else
+                        translation.X = -deltaTime;
+                }
                 //up
                 if (keyboardState.IsKeyDown(Keys.Q))
-                    translation.Y += deltaTime;
+                {
+                    if (keyboardState.IsKeyDown(Keys.LeftControl))
+                        rotation.Y = 0.05f;
+                    else
+                        translation.Y = deltaTime;
+                }
                 //down
                 if (keyboardState.IsKeyDown(Keys.E))
-                    translation.Y -= deltaTime;
+                {
+                    if (keyboardState.IsKeyDown(Keys.LeftControl))
+                        rotation.Y = -0.05f;
+                    else
+                        translation.Y = -deltaTime;
+                }
                 //forward
                 if (keyboardState.IsKeyDown(Keys.W))
-                    translation.Z += deltaTime;
+                {
+                    if (keyboardState.IsKeyDown(Keys.LeftControl))
+                        rotation.Z = 0.05f;
+                    else
+                        translation.Z = deltaTime;
+                }
                 //backward
                 if (keyboardState.IsKeyDown(Keys.S))
-                    translation.Z -= deltaTime;
+                {
+                    if (keyboardState.IsKeyDown(Keys.LeftControl))
+                        rotation.Z = -0.05f;
+                    else
+                        translation.Z = -deltaTime;
+                }
 
                 for (int i = 0; i < VERTEX_COUNT_IN_CUBE; i++)
+                {
+                    points[i].Rotate(rotation);
                     points[i].TranslateModel(translation);
+                }
             }
             base.Update(gameTime);
         }
