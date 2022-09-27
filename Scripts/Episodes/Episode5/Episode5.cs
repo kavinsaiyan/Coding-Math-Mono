@@ -19,7 +19,7 @@ namespace CodingMath.Episodes
         private Matrix _translationMatrix;
         private Matrix _rotationMatrix;
 
-        private Line[] _lines;
+        private LineEpisode5[] _lines;
         private Vector2 _position;
 
         public Episode5()
@@ -36,10 +36,10 @@ namespace CodingMath.Episodes
             _height = GraphicsDevice.Viewport.Height;
 
             _translationMatrix = Matrix.CreateTranslation(_width / 2, _height / 2, 0);
-            _lines = new Line[3];
-            _lines[0] = new Line(new Vector2(0, 0), new Vector2(36, 0)); //horizontal stright line of the arrow
-            _lines[1] = new Line(_lines[0].end, new Vector2(28, 8));
-            _lines[2] = new Line(_lines[0].end, new Vector2(28, -8));
+            _lines = new LineEpisode5[3];
+            _lines[0] = new LineEpisode5(new Vector2(0, 0), new Vector2(36, 0)); //horizontal stright line of the arrow
+            _lines[1] = new LineEpisode5(_lines[0].end, new Vector2(28, 8));
+            _lines[2] = new LineEpisode5(_lines[0].end, new Vector2(28, -8));
 
             _position = new Vector2();
         }

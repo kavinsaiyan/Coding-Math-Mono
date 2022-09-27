@@ -9,17 +9,17 @@ namespace CodingMath.Episodes
     /// </summary>
     public class Ship
     {
-        public readonly Line[] _lines;
+        public readonly LineEpisode5[] _lines;
         private Matrix _translationMatrix;
         private Matrix _rotationMatrix;
         private Vector2 _thrustBase;
         private Vector2 _thrust;
         public Ship()
         {
-            _lines = new Line[3];
-            _lines[0] = new Line(new Vector2(-8, -8), new Vector2(30, 0));
-            _lines[1] = new Line(_lines[0].end, new Vector2(-8, 8));
-            _lines[2] = new Line(_lines[1].end, _lines[0].start);
+            _lines = new LineEpisode5[3];
+            _lines[0] = new LineEpisode5(new Vector2(-8, -8), new Vector2(30, 0));
+            _lines[1] = new LineEpisode5(_lines[0].end, new Vector2(-8, 8));
+            _lines[2] = new LineEpisode5(_lines[1].end, _lines[0].start);
             _thrustBase = (_lines[2].start + _lines[2].end) / 2;
             _translationMatrix = Matrix.Identity;
             _rotationMatrix = Matrix.CreateRotationZ(0);
