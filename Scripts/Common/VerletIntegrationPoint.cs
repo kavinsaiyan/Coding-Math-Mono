@@ -14,6 +14,7 @@ namespace CodingMath
         public Vector2 oldPosition;
         private int _screenWidth;
         private int _screenHeight;
+        public bool IsPinned { get; set; } = false;
 
         public VerletIntegrationPoint(int screenWidth, int screenHeight)
         {
@@ -21,8 +22,10 @@ namespace CodingMath
             _screenHeight = screenHeight;
         }
 
-        public void Update()
+        public virtual void Update()
         {
+            if (IsPinned)
+                return;
             Vector2 velocity = new Vector2();
             velocity.X = (position.X - oldPosition.X) * FRICTION;
             velocity.Y = (position.Y - oldPosition.Y) * FRICTION;
@@ -34,6 +37,8 @@ namespace CodingMath
 
         public void ConstraintPoint()
         {
+            if (IsPinned)
+                return;
             Vector2 velocity = new Vector2();
             velocity.X = (position.X - oldPosition.X) * FRICTION;
             velocity.Y = (position.Y - oldPosition.Y) * FRICTION;
@@ -61,7 +66,7 @@ namespace CodingMath
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Texture2D texture2D)
+        public virtual void Draw(SpriteBatch spriteBatch, Texture2D texture2D)
         {
             spriteBatch.Draw(texture2D, position, null, Color.Black, 0, GameConstants.circleOrigin, Vector2.One, SpriteEffects.None, 0);
         }
