@@ -140,10 +140,7 @@ namespace CodingMath.Episodes
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-            // _engine.DrawEngine1(_spriteBatch);
             _engine.DrawEngine2(_spriteBatch);
-            // _point1.Draw(_spriteBatch, _circleTexture);
-            // _point2.Draw(_spriteBatch, _circleTexture);
             for (int i = 0; i < _lines.Length; i++)
             {
                 _lines[i].Draw(_spriteBatch);
