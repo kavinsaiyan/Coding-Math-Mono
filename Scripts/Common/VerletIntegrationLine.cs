@@ -44,5 +44,14 @@ namespace CodingMath
             }
             spriteBatch.DrawLine(_point1.position, _point2.position, Color.Black, 1, 0);
         }
+
+        public float GetAngle()
+        {
+            float dx = _point2.position.X - _point1.position.X;
+            float dy = _point2.position.Y - _point1.position.Y;
+            return MathF.Atan2(dy, dx);
+        }
+
+        public Vector2 GetPoint1Position() => _point1.position;
     }
 }

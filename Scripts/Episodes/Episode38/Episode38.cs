@@ -19,12 +19,10 @@ namespace CodingMath.Episodes
 
         VerletIntegrationLine[] _lines;
 
-        private const float FRICTION = 0.95f;
-        private const float BOUNCINESS = 0.90f;
-        private const float GRAVITY = 0.5f;
-
         private int _screenWidth;
         private int _screenHeight;
+
+        private Texture2D _squareTexture;
 
         public Episode38()
         {
@@ -84,6 +82,8 @@ namespace CodingMath.Episodes
                 new VerletIntegrationLine(_points[3],_points[0],GetLengthBetweenPoints(_points[3],_points[0])),
                 new VerletIntegrationLine(_points[0],_points[2],GetLengthBetweenPoints(_points[0],_points[2])),
             };
+
+            _squareTexture = Content.Load<Texture2D>(GameConstants.SQUARE_TEXTURE_PATH);
         }
         protected override void Update(GameTime gameTime)
         {
@@ -119,13 +119,11 @@ namespace CodingMath.Episodes
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-            // _point1.Draw(_spriteBatch, _circleTexture);
-            // _point2.Draw(_spriteBatch, _circleTexture);
             for (int i = 0; i < _lines.Length; i++)
             {
                 _lines[i].Draw(_spriteBatch);
-
             }
+            _spriteBatch.Draw(_squareTexture, _lines[0].GetPoint1Position(), null, Color.Green, _lines[0].GetAngle(), Vector2.Zero, Vector2.One, SpriteEffects.None, 0);
             _spriteBatch.End();
 
             base.Draw(gameTime);
