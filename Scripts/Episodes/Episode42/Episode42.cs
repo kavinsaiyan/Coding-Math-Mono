@@ -16,7 +16,8 @@ namespace CodingMath.Episodes
         const float BLOCK_HEIGHT = 50;
         const float BLOCK_WIDTH = 100;
         private const int TILE_GRID_SIZE = 4;
-        private float[] _heights; public Episode42()
+        private float[] _heights;
+        public Episode42()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
