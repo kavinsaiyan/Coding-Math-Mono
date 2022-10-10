@@ -9,18 +9,20 @@ using System.Collections.Generic;
 using CodingMath.InputSystem;
 namespace CodingMath.Mini
 {
-    public class Mini1 : Game
+    public class Mini2 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private float[] _values;
         private int _screenWidth;
         private int _screenHeight;
-        private float _min;
-        private float _max;
 
-        public Mini1()
+        private Texture2D _ciricleTexture;
+        private Vector2 _position;
+        private Vector2 _scale;
+        private Color _color;
+        private float _time;
+        public Mini2()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -30,23 +32,32 @@ namespace CodingMath.Mini
         protected override void Initialize()
         {
             base.Initialize();
-            _values = new float[] { 7, 5, 21, 18, 33, 12, 27, 18, 9, 23, 14, 6, 31, 25, 17, 13, 29 };
             _screenWidth = GraphicsDevice.Viewport.Width;
             _screenHeight = GraphicsDevice.Viewport.Height;
-            _min = _values.OrderBy(x => x).First();
-            _max = _values.OrderBy(x => x).Last();
+            _position = new Vector2();
+            _scale = new Vector2();
+            _color = Color.Black;
+            _time = 0;
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _ciricleTexture = Content.Load<Texture2D>(GameConstants.CIRCLE_TEXTURE_PATH);
         }
 
         protected override void Update(GameTime gameTime)
         {
             //if (Input.IsPressedOnce(Keys.Space, Keyboard.GetState()))
             {
-
+                _time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_time > 1)
+                    _time = 0;
+                _position.X = Lerp(200, 400, _time);
+                _position.Y = Lerp(200, 400, _time);
+                _color.A = (byte)Lerp(0, 255, _time);
+                _scale.X = Lerp(1, 1, _time);
+                _scale.Y = Lerp(1, 1, _time);
             }
         }
 
@@ -54,26 +65,16 @@ namespace CodingMath.Mini
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
-            float xInrement = _screenWidth / _values.Length;
-            for (int i = 0; i < _values.Length - 1; i++)
-            {
-                float x1 = i * xInrement;
-                float y1 = _screenHeight - _screenHeight * Normalize(_min, _max, _values[i]);
-                float x2 = (i + 1) * xInrement;
-                float y2 = _screenHeight - _screenHeight * Normalize(_min, _max, _values[i + 1]);
-
-                _spriteBatch.DrawLine(x1, y1, x2, y2, Color.Black, 1, 0);
-            }
+            _spriteBatch.Begin(blendState: BlendState.AlphaBlend);
+            _spriteBatch.Draw(_ciricleTexture, _position, null, _color, 0, GameConstants.circleOrigin, _scale, SpriteEffects.None, 0);
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        //can also be said as Inverselerp
-        private float Normalize(float min, float max, float val)
+        private float Lerp(float min, float max, float val)
         {
-            return (val - min) / (max - min);
+            return min + (max - min) * val;
         }
     }
 }
