@@ -1,5 +1,6 @@
 ﻿using System;
 using CodingMath.Episodes;
+using CodingMath.Mini;
 
 namespace CodingMath
 {
@@ -8,7 +9,7 @@ namespace CodingMath
         [STAThread]
         static void Main()
         {
-            using (var game = new Episode56())
+            using (var game = new Mini1())
                 game.Run();
         }
     }
