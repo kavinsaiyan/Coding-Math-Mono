@@ -9,7 +9,7 @@ namespace CodingMath
         [STAThread]
         static void Main()
         {
-            using (var game = new Mini3())
+            using (var game = new Mini4())
                 game.Run();
         }
     }
