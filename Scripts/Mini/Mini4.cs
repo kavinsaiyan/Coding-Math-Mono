@@ -45,8 +45,8 @@ namespace CodingMath.Mini
             //if (Input.IsPressedOnce(Keys.Space, Keyboard.GetState()))
             {
                 _position = Mouse.GetState().Position.ToVector2();
-                _position.X = Clamp(_position.X, _rectangle.X, _rectangle.X + _rectangle.Width);
-                _position.Y = Clamp(_position.Y, _rectangle.Y, _rectangle.Y + _rectangle.Height);
+                _position.X = Clamp(_position.X, _rectangle.X + 8, _rectangle.X + _rectangle.Width - 8);
+                _position.Y = Clamp(_position.Y, _rectangle.Y + 8, _rectangle.Y + _rectangle.Height - 8);
             }
         }
 
