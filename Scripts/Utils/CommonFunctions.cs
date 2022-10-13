@@ -51,5 +51,15 @@ namespace CodingMath.Utils
 
             return pFinal;
         }
+
+        public static float RoundToPlaces(float number, float places)
+        {
+            float mult = System.MathF.Pow(10, places);
+            return System.MathF.Round(mult * number) / mult;
+        }
+        public static float RoundNearest(float number, float nearest)
+        {
+            return System.MathF.Round(number / nearest) * nearest;
+        }
     }
 }
