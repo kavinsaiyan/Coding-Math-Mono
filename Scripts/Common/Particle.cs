@@ -24,7 +24,7 @@ namespace CodingMath
         public int TextureWidth => texture2D.Width;
         public int TextureHeight => texture2D.Height;
         public float Radius => TextureWidth / 2 * Scale.X;
-        private Vector2 Origin => new Vector2(size.X * Scale.X, size.Y * Scale.Y) / 2;
+        public Vector2 Origin => new Vector2(size.X * Scale.X, size.Y * Scale.Y) / 2;
         public Particle(ContentManager contentManager, string textureFileName = GameConstants.CIRCLE_TEXTURE_PATH)
         {
             velocity = Vector2.Zero;
@@ -55,6 +55,11 @@ namespace CodingMath
         public void DrawWithoutOffset(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture2D, position, null, color, 0, Vector2.Zero, Scale, SpriteEffects.None, 0);
+        }
+
+        public void DrawWithOrigin(SpriteBatch spriteBatch, Vector2 origin)
+        {
+            spriteBatch.Draw(texture2D, position, null, color, 0, origin, Scale, SpriteEffects.None, 0);
         }
 
         public void GravitateTo(Particle other)
