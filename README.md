@@ -45,7 +45,7 @@ For example to run episode 2, the code should be
 
 <h4><b>Screenshots</b></h4>
 <ul>
-Some screenshots of the topics included in the project.
+Screenshots of some of the topics included in the project.
 <li>
     Working of 3D graphics
     <br/><img src="ReadMe Images/CoolUpgoingParticles.gif" height=200px/>
